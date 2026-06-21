@@ -61,6 +61,14 @@ https://your-render-service.onrender.com/api/dashboard/stats
 
 Use `frontend/` as the Vercel project root.
 
+This is important. If Vercel deploys the repository root, `/`, `/log`, and `/visit` can all return `404` because the Next.js app lives under `frontend/`.
+
+In Vercel:
+
+```text
+Project Settings -> Build and Deployment -> Root Directory -> frontend
+```
+
 Vercel should auto-detect Next.js. Set:
 
 ```env
