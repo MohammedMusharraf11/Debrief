@@ -38,6 +38,7 @@ Set these Render environment variables:
 
 ```env
 FRONTEND_URL=https://your-vercel-app.vercel.app
+CORS_ORIGINS=https://your-vercel-app.vercel.app
 SUPABASE_URL=...
 SUPABASE_ANON_KEY=...
 SUPABASE_SERVICE_ROLE_KEY=...
@@ -81,6 +82,7 @@ Then deploy. After Vercel gives you the production URL, go back to Render and se
 
 ```env
 FRONTEND_URL=https://your-vercel-app.vercel.app
+CORS_ORIGINS=https://your-vercel-app.vercel.app
 ```
 
 Redeploy/restart the Render backend so CORS allows the Vercel frontend.

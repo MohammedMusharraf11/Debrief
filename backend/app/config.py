@@ -34,13 +34,29 @@ class Settings(BaseSettings):
     ai_model: str = Field(default="", alias="AI_MODEL")
 
     frontend_url: str = Field(default="http://localhost:3000", alias="FRONTEND_URL")
+    cors_origins_raw: str = Field(default="", alias="CORS_ORIGINS")
     storage_bucket: str = Field(default="visit-media", alias="SUPABASE_STORAGE_BUCKET")
     max_upload_bytes: int = Field(default=100 * 1024 * 1024, alias="MAX_UPLOAD_BYTES")
 
     @property
     def cors_origins(self) -> list[str]:
-        origins = {self.frontend_url, "http://localhost:3000", "http://127.0.0.1:3000"}
+        configured = {
+            origin.strip().rstrip("/")
+            for origin in self.cors_origins_raw.split(",")
+            if origin.strip()
+        }
+        origins = {
+            self.frontend_url.rstrip("/"),
+            "https://debrief-frontend.vercel.app",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            *configured,
+        }
         return [origin for origin in origins if origin]
+
+    @property
+    def cors_origin_regex(self) -> str:
+        return r"^https://[a-z0-9-]+\.vercel\.app$"
 
     @property
     def llm_api_key(self) -> str:
