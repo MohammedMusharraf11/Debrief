@@ -7,6 +7,19 @@ from app.routers import dashboard, debriefs, media, visits
 
 settings = get_settings()
 
+
+class NormalizePathSlashesMiddleware:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] == "http":
+            path = scope.get("path", "")
+            while "//" in path:
+                path = path.replace("//", "/")
+            scope["path"] = path
+        await self.app(scope, receive, send)
+
 app = FastAPI(
     title="Debrief API",
     description="Field visit logging, media processing, debrief generation, and manager analytics.",
@@ -21,6 +34,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(NormalizePathSlashesMiddleware)
 
 app.include_router(visits.router, prefix="/api", tags=["visits"])
 app.include_router(media.router, prefix="/api", tags=["media"])
