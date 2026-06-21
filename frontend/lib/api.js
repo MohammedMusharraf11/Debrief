@@ -1,7 +1,12 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/+$/, "");
+
+function apiUrl(path) {
+  return `${API_URL}/${String(path).replace(/^\/+/, "")}`;
+}
 
 async function request(path, options = {}) {
-  const response = await fetch(`${API_URL}${path}`, {
+  const url = apiUrl(path);
+  const response = await fetch(url, {
     ...options,
     headers: {
       ...(options.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
@@ -10,7 +15,7 @@ async function request(path, options = {}) {
   });
 
   if (!response.ok) {
-    let message = `Request failed with ${response.status}`;
+    let message = `Request failed with ${response.status}: ${url}`;
     try {
       const payload = await response.json();
       message = payload.detail || message;
