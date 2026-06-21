@@ -69,6 +69,8 @@ In Vercel:
 Project Settings -> Build and Deployment -> Root Directory -> frontend
 ```
 
+Do not use a root-level `vercel.json` that runs `cd frontend ...` when Root Directory is already set to `frontend`.
+
 Vercel should auto-detect Next.js. Set:
 
 ```env
