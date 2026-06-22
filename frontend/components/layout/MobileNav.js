@@ -35,8 +35,8 @@ export default function MobileNav() {
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/94 px-2 pb-[env(safe-area-inset-bottom)] shadow-2xl shadow-slate-950/10 backdrop-blur-xl">
-      <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-1 py-1 min-[430px]:grid-cols-[1fr_auto] min-[430px]:gap-2">
-        <div className={cx("grid h-14 min-[430px]:h-[3.75rem]", role === ROLES.manager ? "grid-cols-3" : "grid-cols-2")}>
+      <div className="mx-auto flex max-w-2xl items-center justify-between gap-1.5 py-1 min-[430px]:gap-3">
+        <div className={cx("grid h-14 flex-grow min-[430px]:h-[3.75rem]", role === ROLES.manager ? "grid-cols-3" : "grid-cols-2")}>
         {tabs.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(`${href}/`);
           return (
@@ -56,7 +56,7 @@ export default function MobileNav() {
           );
         })}
         </div>
-        <div className="hidden w-44 min-[430px]:block">
+        <div className="w-36 shrink-0 min-[380px]:w-40 min-[430px]:w-44">
           <RoleSwitcher compact />
         </div>
       </div>
